@@ -30,7 +30,6 @@ defmodule ChampionsOfMirraWeb.Router do
     end
 
     get "/autobattle/:device_client_id/:target_user_id", AutobattleController, :run_battle
-
   end
 
   # Other scopes may use custom stacks.

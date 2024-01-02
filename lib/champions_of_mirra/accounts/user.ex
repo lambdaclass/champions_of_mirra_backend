@@ -2,6 +2,8 @@ defmodule ChampionsOfMirra.Accounts.User do
   use ChampionsOfMirra.Schema
   import Ecto.Changeset
 
+  alias ChampionsOfMirra.Campaigns.Level
+  alias ChampionsOfMirra.Campaigns.LevelCompleted
   alias ChampionsOfMirra.Units.Unit
 
   schema "users" do
@@ -16,6 +18,8 @@ defmodule ChampionsOfMirra.Accounts.User do
     field(:experience, :float)
 
     has_many(:units, Unit)
+
+    many_to_many(:levels_completed, Level, join_through: LevelCompleted)
 
     timestamps()
   end
