@@ -1,18 +1,37 @@
-# ChampionsOfMirra
+# Lambda Game Backend
+Open source backend developed by LambdaClass in Elixir, for the communication, and Rust, for the state management.
 
-To start your Phoenix server:
+## Table of Contents
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+- [Lambda Game Backend](#lambda-game-backend)
+  - [Table of Contents](#table-of-contents)
+  - [Running the Backend](#running-the-backend)
+    - [Requirements](#requirements)
+  - [Contributing](#contributing)
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Running the Backend
 
-## Learn more
+### Requirements
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+- Erlang OTP >= 26
+- Elixir >= 1.15.4
+- Docker and docker compose
+- [inotify-utils](https://hexdocs.pm/phoenix/installation.html#inotify-tools-for-linux-users) if using Linux (optional, for development live reload)
+
+Ensure Docker is running and execute:
+
+```bash
+git clone https://github.com/lambdaclass/champions_of_mirra_backend
+make db
+make setup
+make start
+```
+
+Whenever you make changes to the game's `config.json`, you will need to run this so that they get reflected:
+
+```elixir
+DarkWorldsServer.Utils.Config.clean_import()
+```
+
+## Contributing
