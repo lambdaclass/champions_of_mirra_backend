@@ -7,8 +7,12 @@ defmodule ChampionsOfMirraWeb.UserController do
   alias ChampionsOfMirra.Units
   alias ChampionsOfMirra.Utils
 
-  def get_all_users(conn, _params) do
-    json(conn, %{users: Accounts.get_all_usernames_and_ids()})
+  def get_opponents(conn, %{"device_client_id" => device_client_id}) do
+    current_user = Accounts.get_user_by_device_client_id(device_client_id)
+
+    json(conn, %{
+      users: Accounts.get_all_usernames_and_ids() -- [%{id: current_user.id, username: current_user.username}]
+    })
   end
 
   def get_user(conn, %{"device_client_id" => device_client_id}) do
