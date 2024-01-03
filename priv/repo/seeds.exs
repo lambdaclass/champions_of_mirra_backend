@@ -71,7 +71,7 @@ characters =
 
 user_1_units =
   Enum.map(
-    1..6,
+    0..4,
     &Units.insert_unit(%{
       level: Enum.random(1..5),
       selected: true,
@@ -83,7 +83,7 @@ user_1_units =
 
 user_2_units =
   Enum.map(
-    1..6,
+    0..4,
     &Units.insert_unit(%{
       level: Enum.random(1..5),
       selected: true,
