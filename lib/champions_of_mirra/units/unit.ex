@@ -7,6 +7,7 @@ defmodule ChampionsOfMirra.Units.Unit do
   import Ecto.Changeset
 
   alias ChampionsOfMirra.Accounts.User
+  alias ChampionsOfMirra.Campaigns.Level
   alias ChampionsOfMirra.Characters.Character
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -17,6 +18,8 @@ defmodule ChampionsOfMirra.Units.Unit do
     field(:slot, :integer)
 
     belongs_to(:user, User)
+    belongs_to(:campaign_level, Level, foreign_key: :campaign_level_id)
+
     belongs_to(:character, Character)
 
     timestamps()
@@ -26,7 +29,7 @@ defmodule ChampionsOfMirra.Units.Unit do
   def changeset(unit, attrs) do
     unit
     |> cast(attrs, [:level, :selected, :slot, :character_id, :user_id])
-    |> validate_required([:level, :selected, :character_id, :user_id])
+    |> validate_required([:level, :selected, :character_id])
   end
 
   @doc """
