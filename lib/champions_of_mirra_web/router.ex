@@ -28,17 +28,20 @@ defmodule ChampionsOfMirraWeb.Router do
       get "/get_units/", UserController, :get_units
       put "/select_unit/:unit_id", UserController, :add_selected_unit
       put "/unselect_unit/:unit_id", UserController, :remove_selected_unit
-    end
 
-    scope "/battle/:device_client_id/" do
       get "/get_opponents", UserController, :get_opponents
-      get "/pvp/:target_user_id", PvPController, :battle
 
       scope "/campaigns" do
         get "/", CampaignController, :get_campaigns
         get "/:campaign_id", CampaignController, :get_campaign
-        get "/:campaign_id/levels/:level_id", CampaignController, :battle_level
+        get "/:campaign_id/levels/:level_id", CampaignController, :get_level
       end
+    end
+
+
+    scope "/battle/:device_client_id/" do
+      get "/pvp/:target_user_id", PvPController, :battle
+      get "/pve/:level_id", CampaignController, :battle
     end
   end
 
