@@ -59,7 +59,6 @@ characters =
 
 ### Units
 
-## User 1
 user_1_units =
   Enum.map(
     1..6,
