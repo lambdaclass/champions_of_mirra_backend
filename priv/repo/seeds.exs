@@ -41,89 +41,82 @@ level_names = [
 
 ### Characters
 
-characters = Enum.map(character_names, fn name ->
-  {:ok, character} = Characters.insert_character(%{name: name})
-  character
-end)
+characters =
+  Enum.map(character_names, fn name ->
+    {:ok, character} = Characters.insert_character(%{name: name})
+    character
+  end)
+
 [muflus, h4ck, uma, valtimer, _otix, _kenzu, _uren, _dagna] = characters
 
 ### Users
 
 {:ok, user_1} =
-  Accounts.register_user(%{email: "faker@t1.com", username: "Faker", password: "fakerfakerfaker"})
+  Accounts.register_user(%{email: "user1@mail.com", username: "User1", password: "useruseruser"})
 
 {:ok, user_2} =
-  Accounts.register_user(%{email: "doinb@fpx.com", username: "Doinb", password: "doinbdoinbdoinb"})
+  Accounts.register_user(%{email: "user2@mail.com", username: "User2", password: "useruseruser"})
 
 ### Units
 
 ## User 1
+user_1_units =
+  Enum.map(
+    1..6,
+    &Units.insert_unit(%{
+      level: Enum.random(1..5),
+      selected: true,
+      slot: &1,
+      character_id: Enum.random(characters).id,
+      user_id: user_1.id
+    })
+  )
 
-{:ok, _} = Units.insert_unit(%{
-  level: 4,
-  selected: true,
-  slot: 1,
-  user_id: user_1.id,
-  character_id: muflus.id
-})
+user_2_units =
+  Enum.map(
+    1..6,
+    &Units.insert_unit(%{
+      level: Enum.random(1..5),
+      selected: true,
+      slot: &1,
+      character_id: Enum.random(characters).id,
+      user_id: user_2.id
+    })
+  )
 
-{:ok, _} = Units.insert_unit(%{
-  level: 3,
-  selected: true,
-  slot: 2,
-  user_id: user_1.id,
-  character_id: h4ck.id
-})
-
-{:ok, _} = Units.insert_unit(%{
-  level: 2,
-  selected: true,
-  slot: 3,
-  user_id: user_1.id,
-  character_id: uma.id
-})
-
-# User 2
-
-{:ok, _} = Units.insert_unit(%{
-  level: 1,
-  selected: true,
-  slot: 1,
-  user_id: user_2.id,
-  character_id: h4ck.id
-})
-
-{:ok, _} = Units.insert_unit(%{
-  level: 1,
-  selected: true,
-  slot: 2,
-  user_id: user_2.id,
-  character_id: valtimer.id
-})
-
-{:ok, _} = Units.insert_unit(%{
-  level: 2,
-  selected: true,
-  slot: 3,
-  user_id: user_2.id,
-  character_id: muflus.id
-})
+assert_units_insert_ok(user_1_units)
+assert_units_insert_ok(user_2_units)
 
 ### Campaigns
 
-{:ok, _campaign} = Campaigns.insert_campaign(%{
-  name: "Great Kaline War",
-  number: 1,
-  levels: level_names |> Enum.with_index() |> Enum.map(fn {name, number} ->
-    %{
-      name: name,
-      number: number,
-      units: Enum.map(1..5, & %{
-        level: Enum.random(min(1, number - 1)..number + 1),
-        selected: true,
-        slot: &1,
-        character_id: Enum.random(characters).id
-        })
-    }
+{:ok, _campaign} =
+  Campaigns.insert_campaign(%{
+    name: "Great Kaline War",
+    number: 1,
+    levels:
+      level_names
+      |> Enum.with_index()
+      |> Enum.map(fn {name, number} ->
+        %{
+          name: name,
+          number: number,
+          units:
+            Enum.map(
+              1..6,
+              &%{
+                level: Enum.random(min(1, number - 1)..(number + 1)),
+                selected: true,
+                slot: &1,
+                character_id: Enum.random(characters).id
+              }
+            )
+        }
+      end)
+  })
+
+def assert_units_insert_ok(units) do
+  Enum.all?(units, fn
+    {:ok, _unit} -> true
+    _ -> false
   end)
-})
+end
