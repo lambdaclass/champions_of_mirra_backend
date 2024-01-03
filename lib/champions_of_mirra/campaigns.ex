@@ -6,7 +6,9 @@ defmodule ChampionsOfMirra.Campaigns do
   import Ecto.Query
 
   alias ChampionsOfMirra.Campaigns.Campaign
+  alias ChampionsOfMirra.Campaigns.CampaignUnlocked
   alias ChampionsOfMirra.Campaigns.Level
+  alias ChampionsOfMirra.Campaigns.LevelCompleted
   alias ChampionsOfMirra.Repo
 
   #############
@@ -42,4 +44,24 @@ defmodule ChampionsOfMirra.Campaigns do
   def get_levels(campaign_id), do: Repo.all(from(l in Level, where: l.campaign_id == ^campaign_id))
 
   def get_level_by_name(name), do: Repo.one(from(l in Level, where: l.name == ^name))
+
+  ####################
+  # CampaignUnlocked #
+  ####################
+
+  def insert_campaign_unlocked(attrs \\ %{}) do
+    %CampaignUnlocked{}
+    |> CampaignUnlocked.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  ##################
+  # LevelCompleted #
+  ##################
+
+  def insert_level_completed(attrs \\ %{}) do
+    %LevelCompleted{}
+    |> LevelCompleted.changeset(attrs)
+    |> Repo.insert()
+  end
 end
