@@ -11,7 +11,7 @@ defmodule ChampionsOfMirraWeb.UserController do
     current_user = Accounts.get_user_by_device_client_id(device_client_id)
     opponents = Accounts.get_all_usernames_and_ids() -- [%{id: current_user.id, username: current_user.username}]
 
-    json(conn, Enum.map(opponents, &%{id: &1.id, username: &1.username}))
+    json(conn, opponents)
   end
 
   def get_user(conn, %{"device_client_id" => device_client_id}) do
