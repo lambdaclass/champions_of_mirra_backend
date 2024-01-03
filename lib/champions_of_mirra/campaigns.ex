@@ -15,13 +15,13 @@ defmodule ChampionsOfMirra.Campaigns do
   # Campaigns #
   #############
 
-  def insert_campaign(attrs \\ %{}) do
+  def insert_campaign(attrs) do
     %Campaign{}
     |> Campaign.changeset(attrs)
     |> Repo.insert()
   end
 
-  def get_campaign(id), do: Repo.get(Campaign, id)
+  def get_campaign(id), do: Repo.get(Campaign, id) |> Repo.preload(:levels)
 
   def get_campaigns(), do: Repo.all(Campaign)
 
@@ -31,7 +31,7 @@ defmodule ChampionsOfMirra.Campaigns do
   # Levels #
   ##########
 
-  def insert_level(attrs \\ %{}) do
+  def insert_level(attrs) do
     %Level{}
     |> Level.changeset(attrs)
     |> Repo.insert()
@@ -49,7 +49,7 @@ defmodule ChampionsOfMirra.Campaigns do
   # CampaignUnlocked #
   ####################
 
-  def insert_campaign_unlocked(attrs \\ %{}) do
+  def insert_campaign_unlocked(attrs) do
     %CampaignUnlocked{}
     |> CampaignUnlocked.changeset(attrs)
     |> Repo.insert()
@@ -59,11 +59,14 @@ defmodule ChampionsOfMirra.Campaigns do
   # LevelCompleted #
   ##################
 
-  def insert_level_completed(attrs \\ %{}) do
+  def insert_level_completed(attrs) do
     %LevelCompleted{}
     |> LevelCompleted.changeset(attrs)
     |> Repo.insert()
   end
+
+  def user_completed_level?(user_id, level_id),
+    do: Repo.exists?(from(lc in LevelCompleted, where: lc.user_id == ^user_id and lc.level_id == ^level_id))
 
   @doc """
   Returns the percentage of progress a user has accomplished on a campaign.

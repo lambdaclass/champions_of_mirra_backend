@@ -34,9 +34,11 @@ defmodule ChampionsOfMirraWeb.Router do
       get "/get_opponents", UserController, :get_opponents
       get "/pvp/:target_user_id", PvPController, :battle
 
-      get "/campaigns/", CampaignController, :get_campaigns
-      get "/campaigns/:campaign_id", CampaignController, :get_campaign
-      get "/campaigns/:campaign_id/levels/:level_id", CampaignController, :battle_level
+      scope "/campaigns" do
+        get "/", CampaignController, :get_campaigns
+        get "/:campaign_id", CampaignController, :get_campaign
+        get "/:campaign_id/levels/:level_id", CampaignController, :battle_level
+      end
     end
   end
 
