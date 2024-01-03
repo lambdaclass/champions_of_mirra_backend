@@ -32,7 +32,7 @@ defmodule ChampionsOfMirraWeb.Router do
 
     scope "/battle/:device_client_id/" do
       get "/get_opponents", UserController, :get_opponents
-      get "/pvp/:target_user_id", PvPController, :run_battle
+      get "/pvp/:target_user_id", PvPController, :battle
 
       get "/campaigns/", CampaignController, :get_campaigns
       get "/campaigns/:campaign_id", CampaignController, :get_campaign

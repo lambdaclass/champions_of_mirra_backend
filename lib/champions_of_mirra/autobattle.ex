@@ -7,7 +7,7 @@ defmodule ChampionsOfMirra.Autobattle do
 
   Returns the id of the winner.
   """
-  def run_battle(user_1, user_2) do
+  def pvp_battle(user_1, user_2) do
     user_1_units = Units.get_selected_units(user_1)
     user_2_units = Units.get_selected_units(user_2)
 
@@ -19,11 +19,18 @@ defmodule ChampionsOfMirra.Autobattle do
         {:error, {:user_2, :no_selected_units}}
 
       true ->
-        user_1_agg_level = Enum.reduce(user_1_units, 0, fn unit, acc -> acc + unit.level end)
-        user_2_agg_level = Enum.reduce(user_2_units, 0, fn unit, acc -> acc + unit.level end)
-        total_level = user_1_agg_level + user_2_agg_level
-
-        if Enum.random(1..total_level) <= user_1_agg_level, do: user_1, else: user_2
+        case battle(user_1_units, user_2_units) do
+          :team_1 -> user_1
+          :team_2 -> user_2
+        end
     end
+  end
+
+  def battle(team_1, team_2) do
+    team_1_agg_level = Enum.reduce(team_1, 0, fn unit, acc -> unit.level + acc end)
+    team_2_agg_level = Enum.reduce(team_2, 0, fn unit, acc -> unit.level + acc end)
+    total_level = team_1_agg_level + team_2_agg_level
+
+    if Enum.random(1..total_level) <= team_1_agg_level, do: :team_1, else: :team_2
   end
 end

@@ -70,7 +70,7 @@ defmodule ChampionsOfMirra.Campaigns do
   """
   def user_progress(user, campaign) do
     levels = campaign.levels
-    completed_levels = Repo.all(from lc in LevelCompleted, where: lc.user_id == ^user.id)
+    completed_levels = Repo.all(from(lc in LevelCompleted, where: lc.user_id == ^user.id))
     100 * length(completed_levels) / length(levels)
   end
 end
