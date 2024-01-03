@@ -19,14 +19,15 @@ defmodule ChampionsOfMirraWeb.Router do
 
     get "/", PageController, :home
 
-    scope "/users-characters" do
-      get "/all", UserController, :get_all_user
-      get "/:device_client_id", UserController, :get_user
-      post "/new", UserController, :create_user
-      put "/:device_client_id/edit", UserController, :update_selected_character
-      get "/:device_client_id/get_units/", UserController, :get_units
-      put "/:device_client_id/select_unit/:unit_id", UserController, :add_selected_unit
-      put "/:device_client_id/unselect_unit/:unit_id", UserController, :remove_selected_unit
+    post "/users/new", UserController, :create_user
+
+    scope "/users/:device_client_id/" do
+      get "/", UserController, :get_user
+      put "/edit", UserController, :update_selected_character
+      get "/get_units/", UserController, :get_units
+      get "/get_opponents", UserController, :get_opponents
+      put "/select_unit/:unit_id", UserController, :add_selected_unit
+      put "/unselect_unit/:unit_id", UserController, :remove_selected_unit
     end
 
     get "/autobattle/:device_client_id/:target_user_id", AutobattleController, :run_battle
