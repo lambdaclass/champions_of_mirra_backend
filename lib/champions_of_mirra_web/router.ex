@@ -28,9 +28,7 @@ defmodule ChampionsOfMirraWeb.Router do
       get "/get_units/", UserController, :get_units
       put "/select_unit/:unit_id", UserController, :add_selected_unit
       put "/unselect_unit/:unit_id", UserController, :remove_selected_unit
-
     end
-
 
     scope "/battle/:device_client_id/" do
       get "/get_opponents", UserController, :get_opponents
@@ -40,7 +38,6 @@ defmodule ChampionsOfMirraWeb.Router do
       get "/campaigns/:campaign_id", CampaignController, :get_campaign
       get "/campaigns/:campaign_id/levels/:level_id", CampaignController, :battle_level
     end
-
   end
 
   # Other scopes may use custom stacks.
