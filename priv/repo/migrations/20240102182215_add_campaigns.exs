@@ -30,7 +30,7 @@ defmodule ChampionsOfMirra.Repo.Migrations.AddCampaigns do
     create table(:level_completed) do
       add(:level_id, references(:levels), null: false)
       add(:user_id, references(:users), null: false)
-      add(:rating, :string)
+      add(:rating, :integer)
       timestamps()
     end
 

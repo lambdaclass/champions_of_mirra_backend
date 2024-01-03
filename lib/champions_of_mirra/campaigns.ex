@@ -64,4 +64,13 @@ defmodule ChampionsOfMirra.Campaigns do
     |> LevelCompleted.changeset(attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  Returns the percentage of progress a user has accomplished on a campaign.
+  """
+  def user_progress(user, campaign) do
+    levels = campaign.levels
+    completed_levels = Repo.all(from lc in LevelCompleted, where: lc.user_id == ^user.id)
+    100 * length(completed_levels) / length(levels)
+  end
 end
