@@ -10,10 +10,11 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias ChampionsOfMirra.Characters
-alias ChampionsOfMirra.Units
-alias ChampionsOfMirra.Campaigns
 alias ChampionsOfMirra.Accounts
+alias ChampionsOfMirra.Campaigns
+alias ChampionsOfMirra.Characters
+alias ChampionsOfMirra.Gacha
+alias ChampionsOfMirra.Units
 
 character_names = [
   "muflus",
@@ -47,7 +48,7 @@ characters =
     character
   end)
 
-[muflus, h4ck, uma, valtimer, _otix, _kenzu, _uren, _dagna] = characters
+[muflus, h4ck, uma, valtimer, otix, kenzu, uren, dagna] = characters
 
 ### Users
 
@@ -132,3 +133,62 @@ end)
 
 {:ok, _} = Campaigns.insert_campaign_unlocked(%{user_id: user_1.id, campaign_id: campaign.id})
 {:ok, _} = Campaigns.insert_level_completed(%{user_id: user_1.id, level_id: hd(campaign.levels).id})
+
+Gacha.insert_box(%{
+  name: "Noob box",
+  description: "A box for begginers, with only a handful of characters.",
+  character_drop_rates: [
+    %{
+      character_id: muflus.id,
+      weight: 1
+    },
+    %{
+      character_id: h4ck.id,
+      weight: 1
+    },
+    %{
+      character_id: uma.id,
+      weight: 1
+    }
+  ]
+})
+
+Gacha.insert_box(%{
+  name: "Premium box",
+  description:
+    "This box can drop some powerful characters, with a one in a hundred chance to drop the super powerful champion D'Agna!",
+  character_drop_rates: [
+    %{
+      character_id: muflus.id,
+      weight: 25
+    },
+    %{
+      character_id: h4ck.id,
+      weight: 25
+    },
+    %{
+      character_id: uma.id,
+      weight: 10
+    },
+    %{
+      character_id: valtimer.id,
+      weight: 10
+    },
+    %{
+      character_id: otix.id,
+      weight: 10
+    },
+    %{
+      character_id: kenzu.id,
+      weight: 5
+    },
+    %{
+      character_id: uren.id,
+      weight: 4
+    },
+    %{
+      character_id: dagna.id,
+      weight: 1
+    }
+  ]
+})
