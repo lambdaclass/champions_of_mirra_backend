@@ -1,6 +1,7 @@
 defmodule ChampionsOfMirraWeb.CampaignController do
   use ChampionsOfMirraWeb, :controller
   alias ChampionsOfMirra.Accounts
+  alias ChampionsOfMirra.Autobattle
   alias ChampionsOfMirra.Campaigns
   alias ChampionsOfMirra.Campaigns.Campaign
   alias ChampionsOfMirra.Campaigns.Level
@@ -45,6 +46,21 @@ defmodule ChampionsOfMirraWeb.CampaignController do
              units <- Enum.map(level.units, &format_unit/1),
              level_map <- Map.put(level_map, :units, units) do
           json(conn, level_map)
+        else
+          nil -> json(conn, %{error: "INEXISTENT_LEVEL"})
+        end
+    end
+  end
+
+  def battle(conn, %{"device_client_id" => device_client_id, "level_id" => level_id}) do
+    case Accounts.get_user_by_device_client_id(device_client_id) |> Repo.preload(:units) do
+      nil ->
+        json(conn, %{error: "INEXISTENT_USER"})
+
+      user ->
+        with %Level{} = level <- Campaigns.get_level(level_id),
+             winner <- Autobattle.battle(user.units, level.units) do
+          json(conn, winner == :team_1)
         else
           nil -> json(conn, %{error: "INEXISTENT_LEVEL"})
         end
