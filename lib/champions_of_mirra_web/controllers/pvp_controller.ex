@@ -1,11 +1,9 @@
-defmodule ChampionsOfMirraWeb.AutobattleController do
+defmodule ChampionsOfMirraWeb.PvPController do
   use ChampionsOfMirraWeb, :controller
   alias ChampionsOfMirra.Accounts
   alias ChampionsOfMirra.Autobattle
 
   def run_battle(conn, %{"device_client_id" => device_client_id, "target_user_id" => target_user_id}) do
-    ChampionsOfMirra.Accounts.get_user_by_device_client_id(device_client_id)
-
     case Accounts.get_user_by_device_client_id(device_client_id) do
       nil ->
         json(conn, %{error: "INEXISTENT_USER"})

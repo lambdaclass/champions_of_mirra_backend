@@ -24,13 +24,23 @@ defmodule ChampionsOfMirraWeb.Router do
     scope "/users/:device_client_id/" do
       get "/", UserController, :get_user
       put "/edit", UserController, :update_selected_character
+
       get "/get_units/", UserController, :get_units
-      get "/get_opponents", UserController, :get_opponents
       put "/select_unit/:unit_id", UserController, :add_selected_unit
       put "/unselect_unit/:unit_id", UserController, :remove_selected_unit
+
     end
 
-    get "/autobattle/:device_client_id/:target_user_id", AutobattleController, :run_battle
+
+    scope "/battle/:device_client_id/" do
+      get "/get_opponents", UserController, :get_opponents
+      get "/pvp/:target_user_id", PvPController, :run_battle
+
+      get "/campaigns/", CampaignController, :get_campaigns
+      get "/campaigns/:campaign_id", CampaignController, :get_campaign
+      get "/campaigns/:campaign_id/levels/:level_id", CampaignController, :battle_level
+    end
+
   end
 
   # Other scopes may use custom stacks.
