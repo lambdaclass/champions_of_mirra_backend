@@ -23,9 +23,9 @@ defmodule ChampionsOfMirraWeb.CampaignController do
 
       user ->
         with %Campaign{} = campaign <- Campaigns.get_campaign(campaign_id),
-             campaign_map <- format_campaign(campaign, user) do
-          levels = campaign.levels |> Enum.map(&format_level(&1, user))
-          campaign_map = Map.put(campaign_map, :levels, levels)
+             campaign_map <- format_campaign(campaign, user),
+             levels <- Enum.map(campaign.levels, &format_level(&1, user)),
+             campaign_map <- Map.put(campaign_map, :levels, levels) do
           json(conn, campaign_map)
         else
           nil -> json(conn, %{error: "INEXISTENT_CAMPAIGN"})

@@ -38,7 +38,6 @@ defmodule ChampionsOfMirraWeb.Router do
       end
     end
 
-
     scope "/battle/:device_client_id/" do
       get "/pvp/:target_user_id", PvPController, :battle
       get "/pve/:level_id", CampaignController, :battle
