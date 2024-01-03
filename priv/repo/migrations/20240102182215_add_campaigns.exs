@@ -8,6 +8,12 @@ defmodule ChampionsOfMirra.Repo.Migrations.AddCampaigns do
       timestamps()
     end
 
+    create table(:campaign_unlocked) do
+      add(:campaign_id, references(:campaigns), null: false)
+      add(:user_id, references(:users), null: false)
+      timestamps()
+    end
+
     create table(:levels) do
       add(:name, :string)
       add(:number, :integer)
