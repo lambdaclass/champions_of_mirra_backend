@@ -60,7 +60,10 @@ defmodule ChampionsOfMirraWeb.CampaignController do
       user ->
         with %Level{} = level <- Campaigns.get_level(level_id),
              winner <- Autobattle.battle(user.units, level.units) do
-          json(conn, winner == :team_1)
+          won = winner == :team_1
+          if won, do: Campaigns.insert_level_completed(%{user_id: user.id, level_id: level_id})
+
+          json(conn, won)
         else
           nil -> json(conn, %{error: "INEXISTENT_LEVEL"})
         end
