@@ -84,8 +84,15 @@ user_2_units =
     })
   )
 
-assert_units_insert_ok(user_1_units)
-assert_units_insert_ok(user_2_units)
+Enum.all?(user_1_units, fn
+  {:ok, _unit} -> true
+  _ -> false
+end)
+
+Enum.all?(user_2_units, fn
+  {:ok, _unit} -> true
+  _ -> false
+end)
 
 ### Campaigns
 
@@ -113,10 +120,3 @@ assert_units_insert_ok(user_2_units)
         }
       end)
   })
-
-def assert_units_insert_ok(units) do
-  Enum.all?(units, fn
-    {:ok, _unit} -> true
-    _ -> false
-  end)
-end
