@@ -14,7 +14,6 @@ defmodule ChampionsOfMirra.Campaigns.LevelCompleted do
   schema "level_completed" do
     belongs_to(:user, User)
     belongs_to(:level, Level)
-    field(:rating, :integer)
 
     timestamps()
   end
@@ -22,7 +21,7 @@ defmodule ChampionsOfMirra.Campaigns.LevelCompleted do
   @doc false
   def changeset(level_completed, attrs) do
     level_completed
-    |> cast(attrs, [:user_id, :level_id, :rating])
-    |> validate_required([:user_id, :level_id, :rating])
+    |> cast(attrs, [:user_id, :level_id])
+    |> validate_required([:user_id, :level_id])
   end
 end

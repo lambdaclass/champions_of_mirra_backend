@@ -131,4 +131,4 @@ end)
   })
 
 {:ok, _} = Campaigns.insert_campaign_unlocked(%{user_id: user_1.id, campaign_id: campaign.id})
-{:ok, _} = Campaigns.insert_level_completed(%{user_id: user_1.id, level_id: hd(campaign.levels).id, rating: 2})
+{:ok, _} = Campaigns.insert_level_completed(%{user_id: user_1.id, level_id: hd(campaign.levels).id})
