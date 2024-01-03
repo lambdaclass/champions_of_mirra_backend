@@ -52,10 +52,20 @@ characters =
 ### Users
 
 {:ok, user_1} =
-  Accounts.register_user(%{email: "user1@mail.com", username: "User1", password: "useruseruser"})
+  Accounts.register_user(%{
+    email: "user1@mail.com",
+    username: "user1",
+    password: "useruseruser",
+    device_client_id: "user1"
+  })
 
 {:ok, user_2} =
-  Accounts.register_user(%{email: "user2@mail.com", username: "User2", password: "useruseruser"})
+  Accounts.register_user(%{
+    email: "user2@mail.com",
+    username: "user2",
+    password: "useruseruser",
+    device_client_id: "user2"
+  })
 
 ### Units
 
@@ -95,7 +105,7 @@ end)
 
 ### Campaigns
 
-{:ok, _campaign} =
+{:ok, campaign} =
   Campaigns.insert_campaign(%{
     name: "Great Kaline War",
     number: 1,
@@ -119,3 +129,5 @@ end)
         }
       end)
   })
+
+{:ok, _} = Campaigns.insert_campaign_unlocked(%{user_id: user_1.id, campaign_id: campaign.id})
