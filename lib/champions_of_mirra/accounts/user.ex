@@ -21,7 +21,7 @@ defmodule ChampionsOfMirra.Accounts.User do
 
     has_many(:units, Unit)
 
-    many_to_many(:levels_completed, Level, join_through: LevelCompleted)
+    many_to_many(:completed_levels, Level, join_through: LevelCompleted)
     many_to_many(:unlocked_campaigns, Campaign, join_through: CampaignUnlocked)
 
     timestamps()

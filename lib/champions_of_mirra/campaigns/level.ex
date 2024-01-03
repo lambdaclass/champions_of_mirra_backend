@@ -1,6 +1,8 @@
 defmodule ChampionsOfMirra.Campaigns.Level do
   @moduledoc """
-  Characters are the template on which players are based.
+  Levels belong to campaigns and are composed by a set of units. They have an unique name and an order that's unique by campaign.
+
+  When users beat levels, it is tracked by the intermediate LevelCompleted table.
   """
 
   use Ecto.Schema

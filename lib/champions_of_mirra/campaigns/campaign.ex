@@ -1,6 +1,8 @@
 defmodule ChampionsOfMirra.Campaigns.Campaign do
   @moduledoc """
-  Characters are the template on which players are based.
+  Campaigns are sets of levels that users can unlock and play. They have an optional number field for ordering.
+
+  When a user unlocks a campaign, it is tracked by the intermediate CampaignUnlocked table.
   """
 
   use Ecto.Schema
