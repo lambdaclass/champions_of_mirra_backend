@@ -120,7 +120,7 @@ end)
             Enum.map(
               1..6,
               &%{
-                level: Enum.random(min(1, number - 1)..(number + 1)),
+                level: Enum.random(max(1, number - 1)..(number + 1)),
                 selected: true,
                 slot: &1,
                 character_id: Enum.random(characters).id

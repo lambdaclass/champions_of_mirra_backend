@@ -5,6 +5,7 @@ defmodule ChampionsOfMirraWeb.CampaignController do
   alias ChampionsOfMirra.Campaigns.Campaign
   alias ChampionsOfMirra.Campaigns.Level
   alias ChampionsOfMirra.Repo
+  alias ChampionsOfMirra.Units.Unit
 
   def get_campaigns(conn, %{"device_client_id" => device_client_id}) do
     case Accounts.get_user_by_device_client_id(device_client_id) |> Repo.preload(unlocked_campaigns: :levels) do
@@ -33,11 +34,32 @@ defmodule ChampionsOfMirraWeb.CampaignController do
     end
   end
 
+  def get_level(conn, %{"device_client_id" => device_client_id, "level_id" => level_id}) do
+    case Accounts.get_user_by_device_client_id(device_client_id) do
+      nil ->
+        json(conn, %{error: "INEXISTENT_USER"})
+
+      user ->
+        with %Level{} = level <- Campaigns.get_level(level_id),
+             level_map <- format_level(level, user),
+             units <- Enum.map(level.units, &format_unit/1),
+             level_map <- Map.put(level_map, :units, units) do
+          json(conn, level_map)
+        else
+          nil -> json(conn, %{error: "INEXISTENT_LEVEL"})
+        end
+    end
+  end
+
   defp format_campaign(%Campaign{name: name, number: number, id: id} = campaign, user) do
     %{id: id, name: name, number: number, progress: Campaigns.user_progress(user, campaign)}
   end
 
   defp format_level(%Level{name: name, number: number, id: id} = level, user) do
     %{name: name, number: number, id: id, completed: Campaigns.user_completed_level?(user.id, level.id)}
+  end
+
+  defp format_unit(%Unit{level: level, slot: slot, character: character}) do
+    %{level: level, slot: slot, character: character.name}
   end
 end

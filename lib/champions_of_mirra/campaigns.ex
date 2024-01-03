@@ -37,7 +37,7 @@ defmodule ChampionsOfMirra.Campaigns do
     |> Repo.insert()
   end
 
-  def get_level(id), do: Repo.get(Level, id)
+  def get_level(id), do: Repo.get(Level, id) |> Repo.preload(units: :character)
 
   def get_levels(), do: Repo.all(Level)
 
