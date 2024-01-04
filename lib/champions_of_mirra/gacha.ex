@@ -34,7 +34,7 @@ defmodule ChampionsOfMirra.Gacha do
         if acc_weight <= 0, do: {:halt, drop_rate.character_id}, else: {:cont, acc_weight}
       end)
 
-    case Units.insert_unit(%{character_id: character_id, level: 99, selected: false, user_id: user.id}) do
+    case Units.insert_unit(%{character_id: character_id, level: 1, selected: false, user_id: user.id}) do
       {:error, reason} -> {:error, reason}
       {:ok, unit} -> {:ok, unit}
     end
